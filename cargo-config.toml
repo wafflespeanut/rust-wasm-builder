@@ -1,0 +1,3 @@
+[build]
+# Target Wasm by default when running Cargo.
+target = "wasm32-unknown-unknown"
