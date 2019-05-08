@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - docker build -t wafflespeanut/rust-wasm-builder:stable .
+  - docker build --build-arg TOOLCHAIN=nightly -t wafflespeanut/rust-wasm-builder:nightly .
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push wafflespeanut/rust-wasm-builder:stable
+  - docker push wafflespeanut/rust-wasm-builder:nightly
