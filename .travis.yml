@@ -3,11 +3,18 @@ sudo: required
 services:
   - docker
 
-script:
-  - docker build -t wafflespeanut/rust-wasm-builder:stable .
-  - docker build --build-arg TOOLCHAIN=nightly -t wafflespeanut/rust-wasm-builder:nightly .
+sudo: required
 
-after_success:
+services:
+  - docker
+
+matrix:
+  include:
+    - name: stable
+      env: TOOLCHAIN=stable
+    - name: nightly
+      env: TOOLCHAIN=nightly
+script:
+  - docker build --build-arg TOOLCHAIN=${TOOLCHAIN} -t wafflespeanut/rust-wasm-builder:${TOOLCHAIN} .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker push wafflespeanut/rust-wasm-builder:stable
-  - docker push wafflespeanut/rust-wasm-builder:nightly
+  - docker push wafflespeanut/rust-wasm-builder:${TOOLCHAIN}
