@@ -3,10 +3,8 @@ sudo: required
 services:
   - docker
 
-sudo: required
-
-services:
-  - docker
+env:
+  - TAG_LATEST=stable
 
 matrix:
   include:
@@ -14,7 +12,10 @@ matrix:
       env: TOOLCHAIN=stable
     - name: nightly
       env: TOOLCHAIN=nightly
+    - name: beta
+      env: TOOLCHAIN=beta
 script:
-  - docker build --build-arg TOOLCHAIN=${TOOLCHAIN} -t wafflespeanut/rust-wasm-builder:${TOOLCHAIN} .
+  - docker build --pull --build-arg TOOLCHAIN=${TOOLCHAIN} -t wafflespeanut/rust-wasm-builder:${TOOLCHAIN} .
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push wafflespeanut/rust-wasm-builder:${TOOLCHAIN}
+  - if [[ $TOOLCHAIN == $TAG_LATEST ]]; then docker tag "wafflespeanut/rust-wasm-builder:$TOOLCHAIN" "wafflespeanut/rust-wasm-builder:latest" && docker push wafflespeanut/rust-wasm-builder; fi

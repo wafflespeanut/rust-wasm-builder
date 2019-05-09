@@ -1,5 +1,3 @@
-# This is inspired and modified from https://github.com/emk/rust-musl-builder
-
 # Use Ubuntu 18.04 LTS as our base image.
 FROM ubuntu:18.04
 
