@@ -1,6 +1,5 @@
 # `rust-wasm-builder`: Building Rust Wasm modules using docker
 
-[![Build Status](https://travis-ci.org/wafflespeanut/rust-wasm-builder.svg?branch=master)](https://travis-ci.org/wafflespeanut/rust-wasm-builder)
 [![Docker pulls](https://img.shields.io/docker/pulls/wafflespeanut/rust-wasm-builder.svg)](https://hub.docker.com/r/wafflespeanut/rust-wasm-builder/)
 
 > **NOTE:** This is inspired and modified from [`ekidd/rust-musl-builder`](https://github.com/emk/rust-musl-builder).

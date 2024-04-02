@@ -15,7 +15,7 @@ jobs:
           docker tag wafflespeanut/rust-wasm-builder:stable wafflespeanut/rust-wasm-builder:latest
       - name: Push to registry
         run: |
-          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          docker login -u="${{ secrets.DOCKER_USERNAME }}" -p="${{ secrets.DOCKER_PASSWORD }}"
           docker push wafflespeanut/rust-wasm-builder:stable
           docker push wafflespeanut/rust-wasm-builder:nightly
           docker push wafflespeanut/rust-wasm-builder:latest
