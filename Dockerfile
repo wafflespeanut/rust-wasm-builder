@@ -39,6 +39,7 @@ RUN curl https://sh.rustup.rs -sSf | \
 # Add cargo-generate and wasm-pack.
 RUN cargo install cargo-generate
 RUN cargo install wasm-pack
+RUN cargo install wasm-bindgen-cli
 
 # Patch the default `--target` to `wasm` so that our users
 # don't need to keep overriding it manually.
