@@ -12,8 +12,8 @@ RUN apt-get update && \
         curl \
         git \
         libssl-dev \
+        libgtest-dev \
         pkgconf \
-        python2.7 \
         sudo \
         && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
@@ -26,7 +26,6 @@ ADD sudoers /etc/sudoers.d/nopasswd
 # as the appropriate user.
 USER rust
 RUN mkdir -p /home/rust/libs /home/rust/src
-RUN sudo ln -s /usr/bin/python2.7 /usr/bin/python
 
 # Setup binary paths.
 ENV PATH=/home/rust/.cargo/bin:/home/rust/binaryen:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -43,15 +42,14 @@ RUN cargo install wasm-pack
 
 # Patch the default `--target` to `wasm` so that our users
 # don't need to keep overriding it manually.
-ADD cargo-config.toml /home/rust/.cargo/config
+ADD cargo-config.toml /home/rust/.cargo/config.toml
 
 # Install and setup paths for binaryen.
-RUN echo "Building binaryen" && \
+RUN echo "Fetching binaryen" && \
     cd /tmp && \
-    BINARYEN_VERSION=version_83 && \
-    curl -LO "https://github.com/WebAssembly/binaryen/archive/$BINARYEN_VERSION.tar.gz" && \
-    tar xzf "$BINARYEN_VERSION.tar.gz" && ls -l && cd "binaryen-$BINARYEN_VERSION" && \
-    cmake . && make && \
+    BINARYEN_VERSION=version_117 && \
+    curl -LO "https://github.com/WebAssembly/binaryen/releases/download/$BINARYEN_VERSION/binaryen-$BINARYEN_VERSION-x86_64-linux.tar.gz" && \
+    tar xzf "binaryen-$BINARYEN_VERSION-x86_64-linux.tar.gz" && ls -l && cd "binaryen-$BINARYEN_VERSION" && \
     mv bin ~/binaryen
 
 # Expect our source code to live in /home/rust/src. We'll run the build as

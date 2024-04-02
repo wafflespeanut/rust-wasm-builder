@@ -34,5 +34,4 @@ Now, you can:
 Currently, the following tags are supported and are built everyday:
 
  - `stable` (also `latest`)
- - `beta`
  - `nightly`
