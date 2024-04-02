@@ -1,0 +1,21 @@
+name: build-master
+on:
+  push:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build nightly
+        run: docker build --build-arg TOOLCHAIN=nightly -t wafflespeanut/rust-wasm-builder:nightly .
+      - name: Build stable
+        run: |
+          docker build --build-arg TOOLCHAIN=stable -t wafflespeanut/rust-wasm-builder:stable .
+          docker tag wafflespeanut/rust-wasm-builder:stable wafflespeanut/rust-wasm-builder:latest
+      - name: Push to registry
+        run: |
+          docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+          docker push wafflespeanut/rust-wasm-builder:stable
+          docker push wafflespeanut/rust-wasm-builder:nightly
+          docker push wafflespeanut/rust-wasm-builder:latest
