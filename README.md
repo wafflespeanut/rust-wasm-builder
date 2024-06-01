@@ -31,7 +31,7 @@ Now, you can:
 
 ## Available tags
 
-Currently, the following tags are supported and are built everyday:
+Currently, the following tags are supported and are built every weekend:
 
  - `stable` (also `latest`)
  - `nightly`
